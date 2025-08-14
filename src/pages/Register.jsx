@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { Form, Button, Container, Card, Alert, Spinner } from "react-bootstrap";
+import { Form, Button, Container, Card, Spinner } from "react-bootstrap";
 import { registerApi } from "../services/allApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
 
-function Register(){
+function Register() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,34 +20,29 @@ function Register(){
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
+    
 
     const { name, email, password } = formData;
-
-    // Basic validation
     if (!name || !email || !password) {
-      setError("All fields are required");
+      toast.warning("All fields are required");
       return;
     }
-
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+      toast.warning("Password must be at least 6 characters");
       return;
     }
 
     setLoading(true);
-
     try {
       const response = await registerApi(formData);
       if (response.data && response.data.user) {
-        setSuccess("Registration successful! Redirecting to login...");
-        setTimeout(() => navigate("/login"), 2000);
+        toast.success("Registration successful! Redirecting to login...");
+        setTimeout(() => navigate("/login"), 3000);
       } else {
-        setError(response.response?.data?.message || "Registration failed");
+        toast.error(response.response?.data?.message || "Registration failed");
       }
     } catch (err) {
-      setError(err.message || "Server error");
+      toast.error(err.message || "Server error");
     } finally {
       setLoading(false);
     }
@@ -54,11 +51,9 @@ function Register(){
   return (
     <>
       <Header />
-      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "70vh" }}>
+      <Container className="d-flex justify-content-center align-items-center my-5" style={{ minHeight: "70vh" }}>
         <Card style={{ width: "400px", padding: "20px" }}>
           <h3 className="text-center mb-3">Register</h3>
-          {error && <Alert variant="danger">{error}</Alert>}
-          {success && <Alert variant="success">{success}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="name">
               <Form.Label>Name</Form.Label>
@@ -84,13 +79,21 @@ function Register(){
 
             <Form.Group className="mb-3" controlId="password">
               <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-              />
+              <div className="d-flex align-items-center">
+                <Form.Control
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                <FontAwesomeIcon
+                  icon={showPassword ? faEye : faEyeSlash}
+                  className="ms-2"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              </div>
             </Form.Group>
 
             <Button
@@ -102,11 +105,17 @@ function Register(){
               {loading ? <Spinner animation="border" size="sm" /> : "Register"}
             </Button>
           </Form>
+
+          <div className="mt-3 text-center">
+            Already registered? <Link to="/login">Login here</Link>
+          </div>
         </Card>
       </Container>
       <Footer />
+      <ToastContainer position="top-center" autoClose={2000} theme="colored"/>
     </>
   );
-};
+}
 
 export default Register;
+

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Spinner, Accordion } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllBooksApi } from "../services/allApi";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BookCard from "../components/BookCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen, faPen, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
 
 function HomePage() {
   const [books, setBooks] = useState([]);
@@ -36,7 +37,7 @@ function HomePage() {
       <div
         className="hero-section text-center text-white d-flex flex-column justify-content-center align-items-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 31, 63, 0.6), rgba(0, 31, 63, 0.6)), url(https://images.unsplash.com/photo-1502485019198-a625bd53ceb7?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZGFyayUyMGxpYnJhcnl8ZW58MHx8MHx8fDA%3D)`,
+          backgroundImage: `linear-gradient(rgba(0, 31, 63, 0.6), rgba(0, 31, 63, 0.6)), url(/banner.jpeg)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "60vh",
@@ -143,44 +144,68 @@ function HomePage() {
         </Button>
       </Container>
 
-      {/* FAQ Section */}
-      <Container className="my-5">
-        <h3 className="text-center mb-3" style={{ color: "#001f3f" }}>
-          Frequently Asked Questions
-        </h3>
-        <Accordion defaultActiveKey="0">
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>How do I add a book?</Accordion.Header>
-            <Accordion.Body>
-              After registering, click on “Add Book” from your dashboard and fill out the book details.
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="1">
-            <Accordion.Header>Can I edit my review?</Accordion.Header>
-            <Accordion.Body>
-              Yes, you can edit your reviews by visiting the book’s detail page and selecting “Edit Review”.
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="2">
-            <Accordion.Header>Is BookVista free to use?</Accordion.Header>
-            <Accordion.Body>
-              Absolutely! BookVista is completely free for all users.
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-      </Container>
+     {/* FAQ Section */}
+<Container className="my-5">
+  <h3 className="text-center mb-3" style={{ color: "#001f3f" }}>
+    Frequently Asked Questions
+  </h3>
+ 
+    
+  <Accordion defaultActiveKey="0">
+ <Accordion.Item eventKey="0">
+      <Accordion.Header>Is BookVista free to use?</Accordion.Header>
+      <Accordion.Body>
+        Absolutely! BookVista is completely free for all users.
+      </Accordion.Body>
+    </Accordion.Item>
+
+    <Accordion.Item eventKey="1">
+      <Accordion.Header>How do I add a book?</Accordion.Header>
+      <Accordion.Body>
+        After you login, click on 'Add New Book' from all books page and fill out the book details.
+      </Accordion.Body>
+    </Accordion.Item>
+    
+    
+    <Accordion.Item eventKey="2">
+      <Accordion.Header>Can I add a review to a book?</Accordion.Header>
+      <Accordion.Body>
+        Yes, you need to be logged in. Go to the book's detail page and fill out the review form.
+      </Accordion.Body>
+    </Accordion.Item>
+    <Accordion.Item eventKey="3">
+      <Accordion.Header>Can I edit my review?</Accordion.Header>
+      <Accordion.Body>
+        Yes, you can edit your reviews by visiting the book’s detail page and selecting “Edit Review”.
+      </Accordion.Body>
+    </Accordion.Item>
+    <Accordion.Item eventKey="4">
+      <Accordion.Header>Who can see my reviews?</Accordion.Header>
+      <Accordion.Body>
+        All reviews are public, so anyone visiting the book detail page can read them.        
+      </Accordion.Body>
+    </Accordion.Item>
+  </Accordion>
+</Container>
 
       {/* Contact Section */}
-      <Container fluid className="py-5" style={{ backgroundColor: "#d9d9d9" }}>
-        <Container className="text-center">
-          <h4>Get in Touch</h4>
-          <p>
-            Email: support@bookvista.com | Follow us on{" "}
-            <a href="https://twitter.com" target="_blank" rel="noreferrer">Twitter</a> |{" "}
-            <a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
-          </p>
-        </Container>
-      </Container>
+<Container fluid className="py-5" style={{ backgroundColor: "#d9d9d9" }}>
+  <Container className="text-center">
+    <h4>Get in Touch</h4>
+    <p>Email: support@bookvista.com</p>
+    <div className="d-flex justify-content-center gap-3 mt-2">
+      <Link to="/twitter" style={{ color: "#1DA1F2" }}>
+        <FontAwesomeIcon icon={faTwitter} size="2x" />
+      </Link>
+      <Link to="/facebook" style={{ color: "#1877F2" }}>
+        <FontAwesomeIcon icon={faFacebook} size="2x" />
+      </Link>
+      <Link to="/instagram" style={{ color: "#E1306C" }}>
+        <FontAwesomeIcon icon={faInstagram} size="2x" />
+      </Link>
+    </div>
+  </Container>
+</Container>
 
       <Footer />
     </>

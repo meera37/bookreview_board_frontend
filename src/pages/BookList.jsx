@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
 import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { getAllBooksApi } from "../services/allApi";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import AddBookModal from "../components/AddBookModal";
 import BookCard from "../components/BookCard";
+import Pagination from "../components/Pagination"; 
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -12,6 +13,9 @@ function BookList() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 9; 
 
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem("token");
@@ -42,6 +46,12 @@ function BookList() {
     setBooks([newBook, ...books]);
   };
 
+  // Pagination 
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+  const totalPages = Math.ceil(books.length / booksPerPage);
+
   return (
     <>
       <Header />
@@ -60,7 +70,7 @@ function BookList() {
         {loading && <Spinner animation="border" />}
 
         <Row>
-          {books.map((book) => (
+          {currentBooks.map((book) => (
             <Col key={book._id} sm={12} md={6} lg={4} className="mb-3">
               <BookCard
                 book={book}
@@ -69,6 +79,15 @@ function BookList() {
             </Col>
           ))}
         </Row>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        )}
       </Container>
 
       {/* Add Book Modal */}
@@ -79,12 +98,7 @@ function BookList() {
       />
 
       <Footer />
-
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        theme="colored"
-      />
+      <ToastContainer position="top-center" autoClose={2000} theme="colored" />
     </>
   );
 }

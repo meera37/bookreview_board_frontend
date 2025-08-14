@@ -1,6 +1,5 @@
 import axios from "axios"
 
-
 export const commonApi = async (httpRequest, url, reqBody, reqHeader)=>{
 
     const reqConfig = {
