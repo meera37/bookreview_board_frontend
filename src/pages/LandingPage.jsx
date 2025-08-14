@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen, faPen, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
 
-function HomePage() {
+function LandingPage() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -212,4 +212,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default LandingPage;
