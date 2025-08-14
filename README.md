@@ -12,21 +12,21 @@ It implements authentication, CRUD operations, protected API routes, and a respo
 
 git clone https://github.com/meera37/bookreview_board_frontend.git
 
-cd frontend
-npm install
-npm run dev
+- cd frontend
+- npm install
+- npm run dev
 
 ### 2. Backend Setup 
 
 git clone https://github.com/meera37/bookreview_board_backend.git
 
-cd backend
-npm install
-node index.js
+- cd backend
+- npm install
+- node index.js
 
 Create a .env file in backend folder.
-DATABASE=<your-mongodb-uri>
-SECRETKEY=<your-jwt-secret>
+- DATABASE= your mongodb connectionstring
+- SECRETKEY= your secret key
 
 ### 3. MongoDB Setup
 - Ensure you have MongoDB running locally or use MongoDB Atlas.
